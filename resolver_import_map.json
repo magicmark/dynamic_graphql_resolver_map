@@ -1,5 +1,8 @@
 {
   "Query.bar": "./types/Bar/index.mjs",
   "Query.baz": "./types/Baz/index.mjs",
-  "Query.foo": "./types/Foo/index.mjs"
+  "Query.foo": "./types/Foo/index.mjs",
+  "Priority.LOW": "./types/Foo/index.mjs",
+  "Priority.MEDIUM": "./types/Foo/index.mjs",
+  "Priority.HIGH": "./types/Foo/index.mjs"
 }

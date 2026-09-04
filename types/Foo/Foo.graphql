@@ -1,6 +1,13 @@
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 type Foo {
   id: ID!
   name: String
+  priority: Priority
 }
 
 extend type Query {

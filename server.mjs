@@ -13,10 +13,16 @@ const dynamicResolvers = {};
 for (const [coordinate, modulePath] of Object.entries(importMap)) {
   const [typeName, fieldName] = coordinate.split('.');
   dynamicResolvers[typeName] = dynamicResolvers[typeName] || {};
-  dynamicResolvers[typeName][fieldName] = async (...args) => {
-    const { resolvers } = await import(modulePath);
-    return resolvers[typeName][fieldName](...args);
-  };
+  const { resolvers } = await import(modulePath);
+  const value = resolvers[typeName]?.[fieldName];
+  if (typeof value === 'function') {
+    dynamicResolvers[typeName][fieldName] = async (...args) => {
+      const { resolvers } = await import(modulePath);
+      return resolvers[typeName][fieldName](...args);
+    };
+  } else {
+    dynamicResolvers[typeName][fieldName] = value;
+  }
 }
 
 const schema = makeExecutableSchema({
