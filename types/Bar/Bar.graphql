@@ -1,0 +1,8 @@
+type Bar {
+  id: ID!
+  label: String
+}
+
+extend type Query {
+  bar: Bar
+}

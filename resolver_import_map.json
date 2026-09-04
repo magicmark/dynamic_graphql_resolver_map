@@ -1,0 +1,5 @@
+{
+  "Query.bar": "./types/Bar/index.mjs",
+  "Query.baz": "./types/Baz/index.mjs",
+  "Query.foo": "./types/Foo/index.mjs"
+}

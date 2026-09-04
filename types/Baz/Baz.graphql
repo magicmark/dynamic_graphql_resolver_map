@@ -1,0 +1,8 @@
+type Baz {
+  id: ID!
+  value: Int
+}
+
+extend type Query {
+  baz: Baz
+}
