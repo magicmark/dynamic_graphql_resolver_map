@@ -8,7 +8,7 @@ const fooTypeDef = readFileSync(new URL('./types/Foo/Foo.graphql', import.meta.u
 const barTypeDef = readFileSync(new URL('./types/Bar/Bar.graphql', import.meta.url), 'utf-8');
 const bazTypeDef = readFileSync(new URL('./types/Baz/Baz.graphql', import.meta.url), 'utf-8');
 
-const r = new Proxy(Object.create(null), {
+const dynamicResolvers = new Proxy(Object.create(null), {
   get(_, typeProp) {
     return new Proxy(Object.create(null), {
       get(_, fieldProp) {
@@ -27,7 +27,7 @@ const r = new Proxy(Object.create(null), {
 
 const schema = makeExecutableSchema({
   typeDefs: ["type Query", fooTypeDef, barTypeDef, bazTypeDef],
-  resolvers: r
+  resolvers: dynamicResolvers,
 });
 
 const server = express()
