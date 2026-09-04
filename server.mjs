@@ -39,12 +39,3 @@ const server = express()
     const port = address.port;
     console.log(`\n   🐢 Server is running on http://${host}:${port} - have fun!`);
   });
-
-
-// if (running as cli) {
-//   if (subcommand == 'spit-out-resolver-map') {
-//     console.log(JSON.stringify({
-//       "[ Query.foo, Query.bar, Baz.qux ]" => "path/to/foo.ts"
-//     }))
-//   }
-// }
