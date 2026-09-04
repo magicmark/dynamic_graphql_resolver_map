@@ -8,22 +8,16 @@ const fooTypeDef = readFileSync(new URL('./types/Foo/Foo.graphql', import.meta.u
 const barTypeDef = readFileSync(new URL('./types/Bar/Bar.graphql', import.meta.url), 'utf-8');
 const bazTypeDef = readFileSync(new URL('./types/Baz/Baz.graphql', import.meta.url), 'utf-8');
 
-const dynamicResolvers = new Proxy(Object.create(null), {
-  get(_, typeProp) {
-    return new Proxy(Object.create(null), {
-      get(_, fieldProp) {
-        const schemaCoordinate = `${typeProp}.${fieldProp}`;
-        if (!(schemaCoordinate in importMap)) return undefined;
-        return async (parent, args, context, info) => {
-          const { resolvers } = await import(importMap[schemaCoordinate]);
-          const resolver = resolvers[typeProp][fieldProp];
-          return resolver(parent, args, context, info);
-        };
-      }
-    });
-  },
-});
+const dynamicResolvers = {};
 
+for (const [coordinate, modulePath] of Object.entries(importMap)) {
+  const [typeName, fieldName] = coordinate.split('.');
+  dynamicResolvers[typeName] = dynamicResolvers[typeName] || {};
+  dynamicResolvers[typeName][fieldName] = async (...args) => {
+    const { resolvers } = await import(modulePath);
+    return resolvers[typeName][fieldName](...args);
+  };
+}
 
 const schema = makeExecutableSchema({
   typeDefs: ["type Query", fooTypeDef, barTypeDef, bazTypeDef],
