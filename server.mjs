@@ -10,18 +10,18 @@ const bazTypeDef = readFileSync(new URL('./types/Baz/Baz.graphql', import.meta.u
 
 const dynamicResolvers = {};
 
-for (const [coordinate, modulePath] of Object.entries(importMap)) {
+for (const [coordinate, { path: modulePath, isFunc }] of Object.entries(importMap)) {
   const [typeName, fieldName] = coordinate.split('.');
   dynamicResolvers[typeName] = dynamicResolvers[typeName] || {};
-  const { resolvers } = await import(modulePath);
-  const value = resolvers[typeName]?.[fieldName];
-  if (typeof value === 'function') {
+
+  if (isFunc) {
     dynamicResolvers[typeName][fieldName] = async (...args) => {
       const { resolvers } = await import(modulePath);
       return resolvers[typeName][fieldName](...args);
     };
   } else {
-    dynamicResolvers[typeName][fieldName] = value;
+    const { resolvers } = await import(modulePath);
+    dynamicResolvers[typeName][fieldName] = resolvers[typeName][fieldName];
   }
 }
 

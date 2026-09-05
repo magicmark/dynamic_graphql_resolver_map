@@ -2,7 +2,7 @@ console.log('importing Foo');
 
 export const resolvers = {
   Query: {
-    foo: () => ({ id: '1', name: 'A Foo', priority: 'p2_medium' }),
+    foo: () => ({ id: '1', name: 'A Foo', priority: 'p3_low' }),
   },
   Priority: {
     LOW: 'p3_low',

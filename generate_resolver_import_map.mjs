@@ -36,7 +36,12 @@ for (const entry of readdirSync(typesDir)) {
 
         for (const fieldProp of fieldObj.properties) {
           const fieldName = fieldProp.key.name ?? fieldProp.key.value;
-          importMap[`${typeName}.${fieldName}`] = `./types/${entry}/index.mjs`;
+          const coordinate = `${typeName}.${fieldName}`;
+          if (importMap[coordinate]) {
+            throw new Error(`duplicate resolver: ${coordinate} defined in both ${importMap[coordinate].path} and ./types/${entry}/index.mjs`);
+          }
+          const isFunc = fieldProp.value.type === 'ArrowFunctionExpression' || fieldProp.value.type === 'FunctionExpression';
+          importMap[coordinate] = { path: `./types/${entry}/index.mjs`, isFunc };
         }
       }
     }

@@ -1,8 +1,26 @@
 {
-  "Query.bar": "./types/Bar/index.mjs",
-  "Query.baz": "./types/Baz/index.mjs",
-  "Query.foo": "./types/Foo/index.mjs",
-  "Priority.LOW": "./types/Foo/index.mjs",
-  "Priority.MEDIUM": "./types/Foo/index.mjs",
-  "Priority.HIGH": "./types/Foo/index.mjs"
+  "Query.bar": {
+    "path": "./types/Bar/index.mjs",
+    "isFunc": true
+  },
+  "Query.baz": {
+    "path": "./types/Baz/index.mjs",
+    "isFunc": true
+  },
+  "Query.foo": {
+    "path": "./types/Foo/index.mjs",
+    "isFunc": true
+  },
+  "Priority.LOW": {
+    "path": "./types/Foo/index.mjs",
+    "isFunc": false
+  },
+  "Priority.MEDIUM": {
+    "path": "./types/Foo/index.mjs",
+    "isFunc": false
+  },
+  "Priority.HIGH": {
+    "path": "./types/Foo/index.mjs",
+    "isFunc": false
+  }
 }
